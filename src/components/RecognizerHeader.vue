@@ -6,17 +6,18 @@
     <span class="lts-small-tip-header">
           Use the <em><strong>slider</strong></em> above to select an exercise.
       </span>
-    <h3>Tries: {{ counterStore.$state.tries }} | Points: {{ counterStore.$state.points }}</h3>
+    <RecognizerCounter/>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useCounterStore} from "@/stores/counter";
+import RecognizerCounter from "@/components/RecognizerCounter.vue";
 
 export default defineComponent({
   name: 'RecognizerHeader',
-
+  components: {RecognizerCounter},
   setup() {
     const counterStore = useCounterStore();
 

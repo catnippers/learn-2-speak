@@ -324,9 +324,6 @@ export default defineComponent({
     transcriptionDisplay: 'Nothing yet...',
     transcription: 'Nothing yet...',
     lastTranscription: 'Nothing yet...',
-
-    toggleValue: 'Alphabet',
-    oldToggleValue: '',
   }),
 
   setup() {
@@ -456,7 +453,7 @@ export default defineComponent({
     verifySaidWord() {
       let result = this.transcription;
 
-      if (this.toggleValue === "Alphabet") {
+      if (this.recognizerSliderStore.toggleValue === "Alphabet") {
         // Web Speech API should (in the most cases) return three letters as a triple-character string
         // (if User speaks loud and clear)
         if (result.length === 3) {
