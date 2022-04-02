@@ -10,7 +10,7 @@ export const useRecognizerSliderStore = defineStore({
     id: 'recognizerSlider',
     state: () => ({
         toggleValue: 'Alphabet',
-        oldToggleValue: '',
+        oldToggleValue: 'Alphabet',
         sliderOptions: ['Alphabet', '1 to 10', '1 to 100', '1 to 1000'],
     } as RootState),
 
