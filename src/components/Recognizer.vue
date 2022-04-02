@@ -1,38 +1,11 @@
 <template>
-  <div class="recognizer-wrapper">
-    <a href="https://github.com/catnippers/learn-2-speak/"
-       target="_blank"
-       class="lts-github-icon-corner">
-      <svg viewBox="0 0 250 250" class="lts-github-icon">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path
-            d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-            fill="currentColor">
-        </path>
-        <path
-            d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-            fill="currentColor">
-        </path>
-      </svg>
-    </a>
-    <div class="recognizer-header">
-      <h1>LEARN TO SPEAK</h1>
-      <h2>Simple app for pronunciation learning</h2>
-      <it-toggle
-          round
-          v-model="toggleValue"
-          :options="['Alphabet', '1 to 10', '1 to 100', '1 to 1000']"
-          style="width: 92%"
-          @click.left="setWordToSay(toggleValue)"
-          @keyup.left.right="setWordToSay(toggleValue)"
-      />
-      <span class="lts-small-tip-header">
-          Use the <em><strong>slider</strong></em> above to select an exercise.
-      </span>
-      <h3>Tries: {{ store.$state.tries }} | Points: {{ store.$state.points }}</h3>
-    </div>
-    <div class="recognizer-main">
-      <div class="recognizer-word-to-say">
+  <div class="lts-recognizer-wrapper">
+    <GitHubLink/>
+    <RecognizerHeader>
+      <ExerciseSlider @changedToggleValue="changedToggleValue"/>
+    </RecognizerHeader>
+    <div class="lts-recognizer-main">
+      <div class="lts-recognizer-word-to-say">
         <p class="lts-say">Please say: </p>
         <button class="lts-word"
                 @click.left="playAudioHint">
@@ -44,13 +17,13 @@
           <em><strong>Audio hint</strong></em> doesn't work when the application is listening to you.
         </span>
       </div>
-      <div class="recognizer-word-said">
+      <div class="lts-recognizer-word-said">
         <p class="lts-say">You said: </p>
         <p class="lts-word">{{ transcriptionDisplay }}</p>
       </div>
     </div>
     <br>
-    <div class="recognizer-speak-button">
+    <div class="lts-recognizer-speak-button">
       <p v-if="!isRecognitionOn" class="lts-say">
         Press the button below and speak out loud to start
         <br>
@@ -90,7 +63,7 @@ h2 {
 }
 
 h3 {
-  margin-top: 0;
+  margin-top: 0px;
   margin-bottom: 6px;
   font-size: 24px;
 }
@@ -127,29 +100,29 @@ h3 {
   background-color: #ffaa93;
 }
 
-.recognizer-word-to-say {
+.lts-recognizer-word-to-say {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.recognizer-word-said {
+.lts-recognizer-word-said {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.recognizer-word-said .lts-say {
+.lts-recognizer-word-said .lts-say {
   margin-top: 12px
 }
 
-.recognizer-speak-button {
+.lts-recognizer-speak-button {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.recognizer-header {
+.lts-recognizer-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -181,7 +154,7 @@ h3 {
   outline: 0;
 }
 
-.recognizer-word-to-say .lts-word:hover {
+.lts-recognizer-word-to-say .lts-word:hover {
   color: #2c3e50;
   background-color: #ffaa93;
   cursor: pointer;
@@ -317,7 +290,11 @@ h3 {
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useStore} from "@/stores/counter";
+import {useCounterStore} from "@/stores/counter";
+import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
+import GitHubLink from '@/components/GitHubLink.vue';
+import ExerciseSlider from "@/components/ExerciseSlider.vue";
+import RecognizerHeader from "@/components/RecognizerHeader.vue";
 
 const letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 const alphabetGrammarList = '#JSGF V1.0; grammar alphabet; public <alphabet> = A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z ;';
@@ -328,6 +305,12 @@ let grammars: SpeechGrammarList;
 
 export default defineComponent({
   name: 'Recognizer',
+
+  components: {
+    RecognizerHeader,
+    GitHubLink,
+    ExerciseSlider
+  },
 
   props: {
     lang: {type: String, default: 'en-US'},
@@ -347,17 +330,19 @@ export default defineComponent({
   }),
 
   setup() {
-    const store = useStore();
+    const counterStore = useCounterStore();
+    const recognizerSliderStore = useRecognizerSliderStore();
 
     return {
-      store,
+      counterStore,
+      recognizerSliderStore
     }
   },
 
   mounted() {
     this.setupWebSpeechAPI();
     this.setupKeyVToSpeak();
-    this.setWordToSay();
+    this.initWordToSay();
   },
 
   methods: {
@@ -391,9 +376,19 @@ export default defineComponent({
       });
     },
 
+    initWordToSay() {
+      this.updateWordToSay();
+    },
+
+    changedToggleValue() {
+      this.setWordToSay();
+    },
+
     setWordToSay() {
-      if (this.toggleValue !== this.oldToggleValue) {
-        this.stopSynthPlayback();
+      if (!this.recognizerSliderStore.isNewAndOldToggleValuesEqual()) {
+        if (synth.speaking) {
+          this.stopSynthPlayback();
+        }
 
         if (this.isRecognitionOn) {
           this.stopRecognition()
@@ -402,7 +397,7 @@ export default defineComponent({
         this.updateWordToSay();
       }
 
-      this.oldToggleValue = this.toggleValue;
+      this.recognizerSliderStore.setOldToggleValue();
     },
 
     getRandomIntFromInterval(min: number, max: number) {
@@ -438,7 +433,7 @@ export default defineComponent({
         this.transcription = event.results[0][0].transcript.toString();
         if (this.transcription !== this.lastTranscription) {
           this.verifySaidWord();
-          this.store.incrementTries();
+          this.counterStore.incrementTries();
         }
       })
 
@@ -480,7 +475,7 @@ export default defineComponent({
       }
 
       if (this.wordToSay === result.toUpperCase()) {
-        this.store.incrementPoints();
+        this.counterStore.incrementPoints();
         this.updateWordToSay();
       }
 
@@ -488,7 +483,7 @@ export default defineComponent({
     },
 
     updateWordToSay() {
-      switch (this.toggleValue) {
+      switch (this.recognizerSliderStore.toggleValue) {
         case "Alphabet": {
           this.wordToSay = this.getRandomTriplet();
           break;

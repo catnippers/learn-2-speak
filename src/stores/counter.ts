@@ -5,8 +5,8 @@ export type RootState = {
   points: number;
 }
 
-export const useStore = defineStore({
-  id: 'tries',
+export const useCounterStore = defineStore({
+  id: 'counter',
   state: () => ({
     tries: 0,
     points: 0,
