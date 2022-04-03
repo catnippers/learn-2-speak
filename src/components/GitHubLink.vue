@@ -1,7 +1,8 @@
 <template>
   <a href="https://github.com/catnippers/learn-2-speak/"
      target="_blank"
-     class="lts-github-icon-corner">
+     class="lts-github-icon-corner"
+     data-test="lts-github-icon-corner">
     <svg viewBox="0 0 250 250" class="lts-github-icon">
       <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
       <path

@@ -1,9 +1,11 @@
 <template>
   <it-toggle
+      class="lts-exercise-slider"
+      data-test="lts-exercise-slider"
+      style="width: 420px"
       round
       v-model="toggleValue"
       :options="this.recognizerSliderStore.$state.sliderOptions"
-      style="width: 420px"
       @click.left="changedToggleValue()"
       @keyup.left.right="changedToggleValue()"
   />

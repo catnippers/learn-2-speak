@@ -1,43 +1,70 @@
 <template>
-  <div class="lts-recognizer-wrapper">
+  <div class="lts-recognizer-wrapper"
+       data-test="lts-recognizer-wrapper">
     <GitHubLink/>
     <RecognizerHeader>
       <ExerciseSlider/>
     </RecognizerHeader>
-    <div class="lts-recognizer-main">
-      <div class="lts-recognizer-word-to-say">
-        <p class="lts-say">Please say: </p>
+    <div class="lts-recognizer-main"
+         data-test="lts-recognizer-main">
+      <div class="lts-recognizer-word-to-say"
+           data-test="lts-recognizer-word-to-say">
+        <p class="lts-say"
+           data-test="lts-say">
+          Please say:
+        </p>
         <button class="lts-word"
+                data-test="lts-word"
                 @click.left="webSpeechStore.playAudioHint()">
           {{ exercisesStore.$state.wordToSay }}
         </button>
-        <span class="lts-small-tip">
+        <span class="lts-small-tip"
+              data-test="lts-small-tip">
           If you need an <em><strong>audio hint</strong></em>, please press the button with the word above.
           <br/>
           <em><strong>Audio hint</strong></em> doesn't work when the application is listening to you.
         </span>
       </div>
-      <div class="lts-recognizer-word-said">
-        <p class="lts-say">You said: </p>
-        <p class="lts-word">{{ webSpeechStore.$state.transcriptionDisplay }}</p>
+      <div class="lts-recognizer-word-said"
+           data-test="lts-recognizer-word-said">
+        <p class="lts-say"
+           data-test="lts-say">
+          You said:
+        </p>
+        <p class="lts-word"
+           data-test="lts-word">
+          {{ webSpeechStore.$state.transcriptionDisplay }}
+        </p>
       </div>
     </div>
     <br>
-    <div class="lts-recognizer-speak-button">
-      <p v-if="webSpeechStore.isRecognitionOff()" class="lts-say">
+    <div class="lts-recognizer-speak-button"
+         data-test="lts-recognizer-speak-button">
+      <p class="lts-say"
+         data-test="lts-say"
+         v-if="webSpeechStore.isRecognitionOff()">
         Press the button below and speak out loud to start
         <br/>
-        <span class="lts-small-tip">(Pressing the <em><strong>V key</strong></em> also works)</span>
+        <span class="lts-small-tip"
+              data-test="lts-small-tip">
+          (Pressing the <em><strong>V key</strong></em> also works)
+        </span>
       </p>
-      <p v-else class="lts-say">
-        Make sure that you're speaking loud and clear</p>
+      <p v-else
+         class="lts-say"
+         data-test="lts-say">
+        Make sure that you're speaking loud and clear
+      </p>
       <br/>
-      <button v-if="webSpeechStore.isRecognitionOff()"
-              class="lts-button"
+      <button class="lts-button"
+              data-test="lts-button"
+              v-if="webSpeechStore.isRecognitionOff()"
               @click="webSpeechStore.startRecognition()">
         THE BUTTON
       </button>
-      <button v-else class="lts-button-steady"
+      <button class="lts-button-steady"
+              data-test="lts-button-steady"
+              v-else
               @click="webSpeechStore.stopRecognition()">
         LISTENING
       </button>
