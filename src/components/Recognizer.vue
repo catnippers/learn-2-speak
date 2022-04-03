@@ -8,8 +8,8 @@
       <div class="lts-recognizer-word-to-say">
         <p class="lts-say">Please say: </p>
         <button class="lts-word"
-                @click.left="playAudioHint">
-          {{ wordToSay }}
+                @click.left="webSpeechStore.playAudioHint()">
+          {{ exercisesStore.$state.wordToSay }}
         </button>
         <span class="lts-small-tip">
           If you need an <em><strong>audio hint</strong></em>, please press the button with the word above.
@@ -19,21 +19,28 @@
       </div>
       <div class="lts-recognizer-word-said">
         <p class="lts-say">You said: </p>
-        <p class="lts-word">{{ transcriptionDisplay }}</p>
+        <p class="lts-word">{{ webSpeechStore.$state.transcriptionDisplay }}</p>
       </div>
     </div>
     <br>
     <div class="lts-recognizer-speak-button">
-      <p v-if="!isRecognitionOn" class="lts-say">
+      <p v-if="webSpeechStore.isRecognitionOff()" class="lts-say">
         Press the button below and speak out loud to start
-        <br>
+        <br/>
         <span class="lts-small-tip">(Pressing the <em><strong>V key</strong></em> also works)</span>
       </p>
       <p v-else class="lts-say">
         Make sure that you're speaking loud and clear</p>
-      <br>
-      <button v-if="!isRecognitionOn" class="lts-button" @click="startRecognition">THE BUTTON</button>
-      <button v-else class="lts-button-steady" @click="stopRecognition">LISTENING</button>
+      <br/>
+      <button v-if="webSpeechStore.isRecognitionOff()"
+              class="lts-button"
+              @click="webSpeechStore.startRecognition()">
+        THE BUTTON
+      </button>
+      <button v-else class="lts-button-steady"
+              @click="webSpeechStore.stopRecognition()">
+        LISTENING
+      </button>
     </div>
   </div>
 </template>
@@ -292,16 +299,11 @@ h3 {
 import {defineComponent} from "vue";
 import {useCounterStore} from "@/stores/counter";
 import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
+import {useExercisesStore} from "@/stores/exercises";
 import GitHubLink from '@/components/GitHubLink.vue';
 import ExerciseSlider from "@/components/ExerciseSlider.vue";
 import RecognizerHeader from "@/components/RecognizerHeader.vue";
-
-const letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-const alphabetGrammarList = '#JSGF V1.0; grammar alphabet; public <alphabet> = A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z ;';
-
-let recognition: SpeechRecognizer;
-let synth: SpeechSynthesis;
-let grammars: SpeechGrammarList;
+import {useWebSpeechStore} from "@/stores/webSpeech";
 
 export default defineComponent({
   name: 'Recognizer',
@@ -312,60 +314,34 @@ export default defineComponent({
     ExerciseSlider
   },
 
-  props: {
-    lang: {type: String, default: 'en-US'},
-  },
-
-  data: () => ({
-    wordToSay: '',
-    lettersList: letters,
-    isRecognitionOn: false,
-
-    transcriptionDisplay: 'Nothing yet...',
-    transcription: 'Nothing yet...',
-    lastTranscription: 'Nothing yet...',
-  }),
-
   setup() {
     const counterStore = useCounterStore();
     const recognizerSliderStore = useRecognizerSliderStore();
+    const webSpeechStore = useWebSpeechStore();
+    const exercisesStore = useExercisesStore();
 
     return {
       counterStore,
-      recognizerSliderStore
+      recognizerSliderStore,
+      webSpeechStore,
+      exercisesStore
     }
   },
 
   mounted() {
-    this.setupWebSpeechAPI();
+    this.webSpeechStore.setupWebSpeech();
     this.setupKeyVToSpeak();
     this.initWordToSay();
   },
 
   methods: {
-    setupWebSpeechAPI() {
-      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
-      window.SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList || window.mozSpeechGrammarList || window.msSpeechGrammarList;
-
-      grammars = new window.SpeechGrammarList;
-      grammars.addFromString(alphabetGrammarList, 1);
-      recognition = new window.SpeechRecognition;
-      synth = window.speechSynthesis;
-
-      recognition.grammars = grammars;
-      recognition.lang = this.lang;
-      recognition.interimResults = false;
-      recognition.continuous = false;
-      recognition.maxAlternatives = 1;
-    },
-
     setupKeyVToSpeak() {
       document.addEventListener('keyup', event => {
         if (event.code === 'KeyV') {
-          this.stopSynthPlayback();
+          this.webSpeechStore.stopSynthPlayback();
 
-          if (this.isRecognitionOn) {
-            this.stopRecognition();
+          if (this.webSpeechStore.isRecognitionOn()) {
+            this.webSpeechStore.stopRecognition();
           } else {
             this.startRecognition();
           }
@@ -374,130 +350,15 @@ export default defineComponent({
     },
 
     initWordToSay() {
-      this.updateWordToSay();
+      this.exercisesStore.updateWordToSay();
     },
 
     changedToggleValue() {
-      this.setWordToSay();
-    },
-
-    setWordToSay() {
-      if (!this.recognizerSliderStore.isNewAndOldToggleValuesEqual()) {
-        if (synth.speaking) {
-          this.stopSynthPlayback();
-        }
-
-        if (this.isRecognitionOn) {
-          this.stopRecognition()
-        }
-
-        this.updateWordToSay();
-      }
-
-      this.recognizerSliderStore.setOldToggleValue();
-    },
-
-    getRandomIntFromInterval(min: number, max: number) {
-      return Math.floor(Math.random() * (max - min + 1) + min).toString()
-    },
-
-    getRandomTriplet() {
-      let triplet: any[] = [];
-      for (let i = 0; i < 3; i++) {
-        triplet.push(this.lettersList[Math.floor(Math.random() * this.lettersList.length)]);
-      }
-      return triplet.toString().replaceAll(",", ", ");
-    },
-
-    playAudioHint() {
-      if (!synth.speaking && !this.isRecognitionOn) {
-        const voicesList = synth.getVoices();
-        const utterThis = new SpeechSynthesisUtterance(this.wordToSay);
-
-        utterThis.rate = 0.8;
-        utterThis.voice = voicesList[33];
-        synth.speak(utterThis);
-      }
+      this.exercisesStore.setWordToSay();
     },
 
     startRecognition() {
-      this.stopSynthPlayback();
-
-      this.isRecognitionOn = true;
-      recognition.start();
-
-      recognition.addEventListener('result', (event: any) => {
-        this.transcription = event.results[0][0].transcript.toString();
-        if (this.transcription !== this.lastTranscription) {
-          this.verifySaidWord();
-          this.counterStore.incrementTries();
-        }
-      })
-
-      recognition.addEventListener('audioend', () => {
-        this.stopRecognition();
-      })
-    },
-
-    stopRecognition() {
-      recognition.stop();
-      this.isRecognitionOn = false;
-    },
-
-    stopSynthPlayback() {
-      if (synth.speaking) {
-        synth.cancel();
-      }
-    },
-
-    verifySaidWord() {
-      let result = this.transcription;
-
-      if (this.recognizerSliderStore.toggleValue === "Alphabet") {
-        // Web Speech API should (in the most cases) return three letters as a triple-character string
-        // (if User speaks loud and clear)
-        if (result.length === 3) {
-          result = result.split('').join(', ');
-          this.transcriptionDisplay = result.toUpperCase();
-        }
-
-        // Web Speech API sometimes splits three letters with empty spaces between them
-        // thus we have to take care of the empty spaces somehow
-        if (result.length === 5) {
-          result = result.trim().replaceAll(' ', '').split('').join(', ');
-          this.transcriptionDisplay = result.toUpperCase();
-        }
-      } else {
-        this.transcriptionDisplay = this.transcription;
-      }
-
-      if (this.wordToSay === result.toUpperCase()) {
-        this.counterStore.incrementPoints();
-        this.updateWordToSay();
-      }
-
-      this.lastTranscription = this.transcription;
-    },
-
-    updateWordToSay() {
-      switch (this.recognizerSliderStore.toggleValue) {
-        case "Alphabet": {
-          this.wordToSay = this.getRandomTriplet();
-          break;
-        }
-        case "1 to 10": {
-          this.wordToSay = this.getRandomIntFromInterval(1, 10);
-          break;
-        }
-        case "1 to 100": {
-          this.wordToSay = this.getRandomIntFromInterval(1, 100);
-          break;
-        }
-        case "1 to 1000": {
-          this.wordToSay = this.getRandomIntFromInterval(1, 1000);
-          break;
-        }
-      }
+      this.webSpeechStore.startRecognition();
     },
   }
 

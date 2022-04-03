@@ -19,6 +19,10 @@ export const useRecognizerSliderStore = defineStore({
             return this.toggleValue === this.oldToggleValue;
         },
 
+        isNotNewAndOldToggleValuesEqual() {
+            return this.toggleValue !== this.oldToggleValue;
+        },
+
         setToggleValue(newValue: string) {
             this.toggleValue = newValue;
         },
