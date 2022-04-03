@@ -2,7 +2,7 @@
   <div class="lts-recognizer-wrapper">
     <GitHubLink/>
     <RecognizerHeader>
-      <ExerciseSlider @changedToggleValue="changedToggleValue"/>
+      <ExerciseSlider/>
     </RecognizerHeader>
     <div class="lts-recognizer-main">
       <div class="lts-recognizer-word-to-say">
@@ -297,13 +297,15 @@ h3 {
 
 <script lang="ts">
 import {defineComponent} from "vue";
+
 import {useCounterStore} from "@/stores/counter";
 import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
 import {useExercisesStore} from "@/stores/exercises";
+import {useWebSpeechStore} from "@/stores/webSpeech";
+
 import GitHubLink from '@/components/GitHubLink.vue';
 import ExerciseSlider from "@/components/ExerciseSlider.vue";
 import RecognizerHeader from "@/components/RecognizerHeader.vue";
-import {useWebSpeechStore} from "@/stores/webSpeech";
 
 export default defineComponent({
   name: 'Recognizer',
@@ -330,8 +332,8 @@ export default defineComponent({
 
   mounted() {
     this.webSpeechStore.setupWebSpeech();
+    this.exercisesStore.updateWordToSay();
     this.setupKeyVToSpeak();
-    this.initWordToSay();
   },
 
   methods: {
@@ -343,22 +345,10 @@ export default defineComponent({
           if (this.webSpeechStore.isRecognitionOn()) {
             this.webSpeechStore.stopRecognition();
           } else {
-            this.startRecognition();
+            this.webSpeechStore.startRecognition();
           }
         }
       });
-    },
-
-    initWordToSay() {
-      this.exercisesStore.updateWordToSay();
-    },
-
-    changedToggleValue() {
-      this.exercisesStore.setWordToSay();
-    },
-
-    startRecognition() {
-      this.webSpeechStore.startRecognition();
     },
   }
 

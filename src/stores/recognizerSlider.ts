@@ -15,10 +15,6 @@ export const useRecognizerSliderStore = defineStore({
     } as RootState),
 
     actions: {
-        isNewAndOldToggleValuesEqual() {
-            return this.toggleValue === this.oldToggleValue;
-        },
-
         isNotNewAndOldToggleValuesEqual() {
             return this.toggleValue !== this.oldToggleValue;
         },

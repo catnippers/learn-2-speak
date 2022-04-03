@@ -12,29 +12,29 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
+import {useExercisesStore} from "@/stores/exercises";
 
 export default defineComponent({
   name: 'ExerciseSlider',
 
   data: () => ({
     toggleValue: 'Alphabet',
-    oldToggleValue: '',
   }),
 
   setup() {
     const recognizerSliderStore = useRecognizerSliderStore();
+    const exercisesStore = useExercisesStore();
 
     return {
-      recognizerSliderStore
+      recognizerSliderStore,
+      exercisesStore,
     }
   },
-
-  emits: ["changedToggleValue"],
 
   methods: {
     changedToggleValue() {
       this.recognizerSliderStore.setToggleValue(this.toggleValue);
-      this.$emit("changedToggleValue");
+      this.exercisesStore.setWordToSay();
     }
   }
 })
