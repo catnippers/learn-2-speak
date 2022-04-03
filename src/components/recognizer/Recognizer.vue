@@ -331,8 +331,8 @@ import {useExercisesStore} from "@/stores/exercises";
 import {useWebSpeechStore} from "@/stores/webSpeech";
 
 import GitHubLink from '@/components/GitHubLink.vue';
-import ExerciseSlider from "@/components/ExerciseSlider.vue";
-import RecognizerHeader from "@/components/RecognizerHeader.vue";
+import ExerciseSlider from "@/components/recognizer/ExerciseSlider.vue";
+import RecognizerHeader from "@/components/recognizer/RecognizerHeader.vue";
 
 export default defineComponent({
   name: 'Recognizer',

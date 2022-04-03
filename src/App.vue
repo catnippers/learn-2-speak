@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Recognizer from "@/components/Recognizer.vue";
+import Recognizer from "@/components/recognizer/Recognizer.vue";
 </script>
 
 <template>
   <header>
-    <div class="wrapper">
+    <div class="lts-wrapper"
+         data-test="lts-wrapper">
       <Recognizer></Recognizer>
     </div>
   </header>

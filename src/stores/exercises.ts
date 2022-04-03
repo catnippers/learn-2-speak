@@ -28,7 +28,6 @@ export const useExercisesStore = defineStore({
                 webSpeechStore.stopRecognition();
                 this.updateWordToSay();
             }
-
             recognizerSliderStore.setOldToggleValue();
         },
 
@@ -61,7 +60,6 @@ export const useExercisesStore = defineStore({
                 counterStore.incrementPoints();
                 this.updateWordToSay();
             }
-
             webSpeechStore.updateLastTranscription();
         },
 
