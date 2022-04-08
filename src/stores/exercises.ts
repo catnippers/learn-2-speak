@@ -77,6 +77,10 @@ export const useExercisesStore = defineStore({
 
         updateWordToSay() {
             const recognizerSliderStore = useRecognizerSliderStore();
+            const webSpeechStore = useWebSpeechStore();
+
+            webSpeechStore.stopSynthPlayback();
+            webSpeechStore.stopRecognition();
 
             switch (recognizerSliderStore.toggleValue) {
                 case "Alphabet": {

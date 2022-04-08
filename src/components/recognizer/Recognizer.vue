@@ -25,7 +25,7 @@ body {
 h1 {
   font-weight: 900;
   font-size: 42px;
-  margin-top: 6px;
+  margin-top: -2px;
 }
 
 h2 {
@@ -126,6 +126,16 @@ h3 {
   background-color: #2c3e50;
   text-align: center;
   transition: all 0.2s;
+}
+
+.lts-refresh-icon {
+  margin-top: 2px;
+  margin-bottom: -4px;
+}
+
+.lts-speaker-icon {
+  margin-top: 2px;
+  margin-bottom: -4px;
 }
 
 .lts-popover-word:focus {
