@@ -45,10 +45,6 @@ export const useWebSpeechStore = defineStore({
         },
 
         // WEB SPEECH RECOGNITION METHODS
-        getRecognition() {
-            return recognition;
-        },
-
         isRecognitionOn() {
             return this.recognitionOn;
         },
@@ -95,10 +91,6 @@ export const useWebSpeechStore = defineStore({
         },
 
         // WEB SPEECH SYNTH METHODS
-        getSynth() {
-            return synth;
-        },
-
         isSynthOn() {
             return synth.speaking;
         },
@@ -117,13 +109,16 @@ export const useWebSpeechStore = defineStore({
             const exercisesStore = useExercisesStore();
 
             if (this.isAudioOff()) {
-                const voicesList = synth.getVoices();
                 const utterThis = new SpeechSynthesisUtterance(exercisesStore.wordToSay);
 
                 utterThis.rate = 0.8;
-                utterThis.voice = voicesList[33];
+                utterThis.lang = this.lang;
                 synth.speak(utterThis);
             }
+        },
+
+        isAudioOn() {
+            return this.isSynthOn() && this.isRecognitionOn();
         },
 
         isAudioOff() {

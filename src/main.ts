@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
-import {Toggle} from 'equal-vue'
+import {Toggle, DoublePopover} from 'equal-vue'
 import 'equal-vue/dist/style.css'
 
 import App from './App.vue'
@@ -11,5 +11,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(Toggle)
+app.use(DoublePopover)
 
 app.mount('#app')

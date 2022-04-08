@@ -40,6 +40,10 @@ h3 {
   font-size: 24px;
 }
 
+.it-double-tooltip {
+  margin-top: 12px;
+}
+
 .it-toggle {
   border: solid 3px #ffaa93;
   background-color: #2c3e50;
@@ -84,7 +88,11 @@ h3 {
   align-items: center;
 }
 
-.lts-recognizer-word-said .lts-say {
+.lts-recognizer-word-said .lts-word {
+  margin-top: 12px;
+}
+
+.lts-say {
   margin-top: 12px
 }
 
@@ -92,10 +100,6 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.lts-recognizer-main {
-  margin-bottom: 16px;
 }
 
 .lts-recognizer-header {
@@ -110,11 +114,39 @@ h3 {
   text-align: center;
 }
 
+.lts-popover-word {
+  font-weight: 700;
+  font-size: 24px;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #ffaa93;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #ffaa93;
+  background-color: #2c3e50;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.lts-popover-word:focus {
+  box-shadow: 0 0 0 1px rgba(113, 204, 186, 0.34), 0 0 0 4px rgba(147, 255, 242, 0.22);
+  outline: 0;
+}
+
+.lts-recognizer-word-to-say .lts-popover-word:hover {
+  color: #2c3e50;
+  background-color: #ffaa93;
+  cursor: pointer;
+}
+
+.lts-recognizer-word-to-say .lts-say {
+  margin: 0;
+}
+
 .lts-word {
   font-weight: 700;
   font-size: 24px;
   padding: 0.35em 1.2em;
-  margin-top: 12px;
   border: 0.1em solid #ffaa93;
   border-radius: 0.12em;
   box-sizing: border-box;
@@ -137,6 +169,7 @@ h3 {
 }
 
 .lts-small-tip {
+  display: block;
   font-weight: 400;
   font-size: 12px;
   padding-top: 12px;
