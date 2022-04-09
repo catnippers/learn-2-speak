@@ -1,21 +1,42 @@
-# Learn to Speak
+# Learn To Speak
 
-This template should help get you started developing with Vue 3 in Vite.
+## Created by Catnippers Social Club
 
-## Recommended IDE Setup
+### Developoment Team
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+Frontend Lead Developer / Project Manager / QA Lead: Tomasz Buga (kontakt@tomaszbuga.pl)
 
-## Type Support for `.vue` Imports in TS
+### Links
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+GitHub: https://github.com/catnippers
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+LinkedIn: https://www.linkedin.com/company/79745129
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+## Tech Stack
+
+`TypeScript` - Programming Language
+
+`Vue 3` - Progressive JavaScript (and TypeScript) Framework
+
+`Equal UI` - UI Component Library
+
+`Jest` - Testing Framework
+
+## Getting started
+### Prerequisites
+
+`NodeJS` (https://nodejs.org/en/)
+
+### Clone the project repository and install node_modules
+Launch `Terminal.app` and navigate (using `cd` command) to directory, where you'd like to store your copy of the source code
+
+Use the `git clone https://github.com/catnippers/learn-2-speak.git` command to clone the repository to your local directory
+
+Use the `npm install` command to install required dependencies in the `node_modules`
+
+Use the `npm run dev` command to run Learn To Speak in development mode (App should be available at http://localhost:3000)
+
+# Development Notes
 
 ## Customize configuration
 

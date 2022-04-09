@@ -1,9 +1,11 @@
 <template>
-  <div class="lts-recognizer-header">
+  <div class="lts-recognizer-header"
+       data-test="lts-recognizer-header">
     <h1>LEARN TO SPEAK</h1>
     <h2>Simple app for pronunciation learning</h2>
     <slot></slot>
-    <span class="lts-small-tip-header">
+    <span class="lts-small-tip-header"
+          data-test="lts-small-tip-header">
           Use the <em><strong>slider</strong></em> above to select an exercise.
       </span>
     <RecognizerCounter/>
@@ -13,7 +15,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useCounterStore} from "@/stores/counter";
-import RecognizerCounter from "@/components/RecognizerCounter.vue";
+import RecognizerCounter from "@/components/recognizer/RecognizerCounter.vue";
 
 export default defineComponent({
   name: 'RecognizerHeader',
