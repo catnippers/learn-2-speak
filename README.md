@@ -12,6 +12,8 @@ GitHub: https://github.com/catnippers
 
 LinkedIn: https://www.linkedin.com/company/79745129
 
+Live Demo: https://learn2speak.app
+
 ## Tech Stack
 
 `TypeScript` - Programming Language
