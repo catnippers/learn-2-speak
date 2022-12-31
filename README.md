@@ -24,7 +24,7 @@ Live Demo: https://learn2speak.app
 
 `Equal UI` - UI Component Library
 
-`Jest` - Testing Framework
+`Vitest` - UnitTesting Framework
 
 ## Getting started
 ### Prerequisites
