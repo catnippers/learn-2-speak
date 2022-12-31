@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
-import {useExercisesStore} from "@/stores/exercises";
+import {useRecognizerSliderStore} from "@/app/stores/recognizerSlider";
+import {useExercisesStore} from "@/app/stores/exercises";
 
 export default defineComponent({
   name: 'ExerciseSlider',

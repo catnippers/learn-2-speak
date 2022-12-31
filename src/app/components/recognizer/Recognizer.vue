@@ -13,16 +13,16 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 
-import {useCounterStore} from "@/stores/counter";
-import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
-import {useExercisesStore} from "@/stores/exercises";
-import {useWebSpeechStore} from "@/stores/webSpeech";
+import {useCounterStore} from "@/app/stores/counter";
+import {useRecognizerSliderStore} from "@/app/stores/recognizerSlider";
+import {useExercisesStore} from "@/app/stores/exercises";
+import {useWebSpeechStore} from "@/app/stores/webSpeech";
 
-import GitHubLink from '@/components/icons/GitHubLink.vue';
-import ExerciseSlider from "@/components/recognizer/ExerciseSlider.vue";
-import RecognizerHeader from "@/components/recognizer/RecognizerHeader.vue";
-import RecognizerMain from "@/components/recognizer/RecognizerMain.vue";
-import RecognizerSpeakButton from "@/components/recognizer/RecognizerSpeakButton.vue";
+import GitHubLink from '@/app/components/icons/GitHubLink.vue';
+import ExerciseSlider from "@/app/components/recognizer/ExerciseSlider.vue";
+import RecognizerHeader from "@/app/components/recognizer/RecognizerHeader.vue";
+import RecognizerMain from "@/app/components/recognizer/RecognizerMain.vue";
+import RecognizerSpeakButton from "@/app/components/recognizer/RecognizerSpeakButton.vue";
 
 export default defineComponent({
   name: 'Recognizer',

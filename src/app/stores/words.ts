@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
-import {useWebSpeechStore} from "@/stores/webSpeech";
-import {EN_US_ALPHABET, PL_PL_ALPHABET} from "@/data/alphabets";
+import {useWebSpeechStore} from "@/app/stores/webSpeech";
+import {EN_US_ALPHABET, PL_PL_ALPHABET} from "@/app/data/alphabets";
 
 export type RootState = {
     lettersList: string;

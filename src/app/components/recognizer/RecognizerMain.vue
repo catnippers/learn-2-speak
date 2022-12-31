@@ -62,11 +62,11 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useWebSpeechStore} from "@/stores/webSpeech";
-import {useExercisesStore} from "@/stores/exercises";
-import RefreshIcon from "@/components/icons/RefreshIcon.vue";
-import SpeakerIcon from "@/components/icons/SpeakerIcon.vue";
-import SpeakerOffIcon from "@/components/icons/SpeakerOffIcon.vue";
+import {useWebSpeechStore} from "@/app/stores/webSpeech";
+import {useExercisesStore} from "@/app/stores/exercises";
+import RefreshIcon from "@/app/components/icons/RefreshIcon.vue";
+import SpeakerIcon from "@/app/components/icons/SpeakerIcon.vue";
+import SpeakerOffIcon from "@/app/components/icons/SpeakerOffIcon.vue";
 
 export default defineComponent({
   name: 'RecognizerMain',

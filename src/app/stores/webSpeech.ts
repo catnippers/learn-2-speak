@@ -1,9 +1,9 @@
 import {defineStore} from 'pinia'
-import {useExercisesStore} from "@/stores/exercises";
-import {useCounterStore} from "@/stores/counter";
-import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
-import {useWordsStore} from "@/stores/words";
-import {getNumberProps, NumberToWord} from "@/data/numberToWord";
+import {useExercisesStore} from "@/app/stores/exercises";
+import {useCounterStore} from "@/app/stores/counter";
+import {useRecognizerSliderStore} from "@/app/stores/recognizerSlider";
+import {useWordsStore} from "@/app/stores/words";
+import {getNumberProps, NumberToWord} from "@/app/data/numberToWord";
 
 let recognition: SpeechRecognizer;
 let synth: SpeechSynthesis;

@@ -1,10 +1,10 @@
 import {describe, expect, test} from "vitest";
 import {mount} from "@vue/test-utils";
 
-import GitHubLink from "../components/icons/GitHubLink.vue";
-import RefreshIcon from "../components/icons/RefreshIcon.vue";
-import SpeakerIcon from "../components/icons/SpeakerIcon.vue";
-import SpeakerOffIcon from "../components/icons/SpeakerOffIcon.vue";
+import GitHubLink from "../app/components/icons/GitHubLink.vue";
+import RefreshIcon from "../app/components/icons/RefreshIcon.vue";
+import SpeakerIcon from "../app/components/icons/SpeakerIcon.vue";
+import SpeakerOffIcon from "../app/components/icons/SpeakerOffIcon.vue";
 
 describe('mount icons', () => {
     test('mount GitHubLink component', async () => {

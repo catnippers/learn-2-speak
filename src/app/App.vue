@@ -305,5 +305,5 @@ h3 {
 </style>
 
 <script setup lang="ts">
-import Recognizer from "@/components/recognizer/Recognizer.vue";
+import Recognizer from "@/app/components/recognizer/Recognizer.vue";
 </script>

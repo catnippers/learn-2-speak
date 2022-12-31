@@ -34,8 +34,8 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useWebSpeechStore} from "@/stores/webSpeech";
-import {useExercisesStore} from "@/stores/exercises";
+import {useWebSpeechStore} from "@/app/stores/webSpeech";
+import {useExercisesStore} from "@/app/stores/exercises";
 
 export default defineComponent({
   name: 'RecognizerSpeakButton',

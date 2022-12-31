@@ -1,8 +1,8 @@
 import {defineStore} from 'pinia'
-import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
-import {useWebSpeechStore} from "@/stores/webSpeech";
-import {useCounterStore} from "@/stores/counter";
-import {useWordsStore} from "@/stores/words";
+import {useRecognizerSliderStore} from "@/app/stores/recognizerSlider";
+import {useWebSpeechStore} from "@/app/stores/webSpeech";
+import {useCounterStore} from "@/app/stores/counter";
+import {useWordsStore} from "@/app/stores/words";
 
 export type RootState = {
     wordToSay: string;

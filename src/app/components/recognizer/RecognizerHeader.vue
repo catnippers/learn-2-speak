@@ -14,8 +14,8 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {useCounterStore} from "@/stores/counter";
-import RecognizerCounter from "@/components/recognizer/RecognizerCounter.vue";
+import {useCounterStore} from "@/app/stores/counter";
+import RecognizerCounter from "@/app/components/recognizer/RecognizerCounter.vue";
 
 export default defineComponent({
   name: 'RecognizerHeader',
