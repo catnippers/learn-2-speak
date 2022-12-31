@@ -1,6 +1,4 @@
-export {};
-
-declare global {
+export declare global {
     // https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
     interface SpeechRecognizer {
         grammars: any;

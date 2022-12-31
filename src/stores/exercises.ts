@@ -16,6 +16,8 @@ export const useExercisesStore = defineStore({
     } as RootState),
 
     actions: {
+
+        //region WORD TO SAY METHODS
         setWordToSay() {
             const recognizerSliderStore = useRecognizerSliderStore();
             const webSpeechStore = useWebSpeechStore();
@@ -60,20 +62,6 @@ export const useExercisesStore = defineStore({
             webSpeechStore.updateLastTranscription();
         },
 
-        getRandomTriplet() {
-            const wordsStore = useWordsStore();
-
-            let triplet: string[] = [];
-            for (let i = 0; i < 3; i++) {
-                triplet.push(wordsStore.lettersList[Math.floor(Math.random() * wordsStore.lettersList.length)]);
-            }
-            return triplet.toString().replaceAll(",", ", ");
-        },
-
-        getRandomIntFromInterval(min: number, max: number) {
-            return Math.floor(Math.random() * (max - min + 1) + min).toString()
-        },
-
         updateWordToSay() {
             const recognizerSliderStore = useRecognizerSliderStore();
             const webSpeechStore = useWebSpeechStore();
@@ -100,5 +88,23 @@ export const useExercisesStore = defineStore({
                 }
             }
         },
+        //endregion WORD TO SAY METHODS
+
+        //region GENERATE EXERCISES
+        getRandomTriplet() {
+            const wordsStore = useWordsStore();
+
+            let triplet: string[] = [];
+            for (let i = 0; i < 3; i++) {
+                triplet.push(wordsStore.lettersList[Math.floor(Math.random() * wordsStore.lettersList.length)]);
+            }
+            return triplet.toString().replaceAll(",", ", ");
+        },
+
+        getRandomIntFromInterval(min: number, max: number) {
+            return Math.floor(Math.random() * (max - min + 1) + min).toString()
+        },
+        //endregion GENERATE EXERCISES
+
     },
 })

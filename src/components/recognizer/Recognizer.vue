@@ -18,7 +18,7 @@ import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
 import {useExercisesStore} from "@/stores/exercises";
 import {useWebSpeechStore} from "@/stores/webSpeech";
 
-import GitHubLink from '@/components/GitHubLink.vue';
+import GitHubLink from '@/components/icons/GitHubLink.vue';
 import ExerciseSlider from "@/components/recognizer/ExerciseSlider.vue";
 import RecognizerHeader from "@/components/recognizer/RecognizerHeader.vue";
 import RecognizerMain from "@/components/recognizer/RecognizerMain.vue";

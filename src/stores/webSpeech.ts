@@ -8,6 +8,7 @@ import {getNumberProps, NumberToWord} from "@/data/numberToWord";
 let recognition: SpeechRecognizer;
 let synth: SpeechSynthesis;
 let grammars: SpeechGrammarList;
+const maxAlternativesCount = 5;
 
 export type RootState = {
     lang: string;
@@ -29,6 +30,11 @@ export const useWebSpeechStore = defineStore({
     } as RootState),
 
     actions: {
+
+        getCurrentLanguage() {
+            return this.lang;
+        },
+
         setupWebSpeech() {
             const wordsStore = useWordsStore();
             wordsStore.updateLettersList();
@@ -45,14 +51,10 @@ export const useWebSpeechStore = defineStore({
             recognition.lang = this.lang;
             recognition.interimResults = false;
             recognition.continuous = false;
-            recognition.maxAlternatives = 5;
+            recognition.maxAlternatives = maxAlternativesCount;
         },
 
-        getCurrentLanguage() {
-            return this.lang;
-        },
-
-        // WEB SPEECH RECOGNITION METHODS
+        //region WEB SPEECH RECOGNITION METHODS
         isRecognitionOn() {
             return this.recognitionOn;
         },
@@ -68,6 +70,7 @@ export const useWebSpeechStore = defineStore({
             }
         },
 
+        // TODO: Extract to separate logic from store
         startRecognition() {
             const recognizerSliderStore = useRecognizerSliderStore();
 
@@ -83,6 +86,59 @@ export const useWebSpeechStore = defineStore({
             this.stopRecognitionOnAudioEndEvent();
         },
 
+        stopRecognition() {
+            if (this.isRecognitionOn()) {
+                recognition.stop();
+                this.recognitionOn = false;
+            }
+        },
+
+        stopRecognitionOnAudioEndEvent() {
+            recognition.addEventListener('audioend', () => {
+                this.stopRecognition();
+            })
+        },
+        //endregion WEB SPEECH RECOGNITION METHODS
+
+        //region WEB SPEECH SYNTH METHODS
+        isSynthOn() {
+            return synth.speaking;
+        },
+
+        isSynthOff() {
+            return !synth.speaking;
+        },
+
+        stopSynthPlayback() {
+            if (this.isSynthOn()) {
+                synth.cancel();
+            }
+        },
+
+        // TODO: Extract to separate logic from store
+        playAudioHint() {
+            const exercisesStore = useExercisesStore();
+
+            if (this.isAudioOff()) {
+                const utterThis = new SpeechSynthesisUtterance(exercisesStore.wordToSay);
+
+                utterThis.rate = 0.8;
+                utterThis.lang = this.lang;
+                synth.speak(utterThis);
+            }
+        },
+
+        isAudioOn() {
+            return this.isSynthOn() && this.isRecognitionOn();
+        },
+
+        isAudioOff() {
+            return this.isSynthOff() && this.isRecognitionOff();
+        },
+        //endregion WEB SPEECH SYNTH METHODS
+
+        //region RECOGNITION LOGIC
+        // TODO: Extract to separate logic from store
         performRecognitionForAlphabet() {
             const exercisesStore = useExercisesStore();
             const counterStore = useCounterStore();
@@ -139,6 +195,8 @@ export const useWebSpeechStore = defineStore({
                                         return this.validatePronunciation(alternativeTranscript, NumberToWord.fifty);
                                     case baselineAsInt < 70:
                                         return this.validatePronunciation(alternativeTranscript, NumberToWord.sixty);
+                                    case baselineAsInt === 78:
+                                        return this.validatePronunciation(alternativeTranscript, NumberToWord.seventy, baselineAlternative);
                                     case baselineAsInt < 80:
                                         return this.validatePronunciation(alternativeTranscript, NumberToWord.seventy);
                                     case baselineAsInt < 90:
@@ -157,7 +215,7 @@ export const useWebSpeechStore = defineStore({
                         }
                     } else {
                         // KNOWN ISSUE:
-                        // this is prepared for '17' & '19' which happen to have no alternatives
+                        // '17', '19', '21', '27', '29', '31', '38', '39', '51',  happen to have no alternatives
                         // (e.g., both nineteen and one nine have only one result to select from)
                         this.setTranscription(baselineAlternative);
                     }
@@ -193,7 +251,7 @@ export const useWebSpeechStore = defineStore({
                         }
                     } else {
                         // KNOWN ISSUE:
-                        // this is prepared for '17' & '19' which happen to have no alternatives
+                        // this is prepared for numbers which happen to have no alternatives
                         // (e.g., both nineteen and one nine have only one result to select from)
                         this.setTranscription(baselineAlternative);
                     }
@@ -210,13 +268,16 @@ export const useWebSpeechStore = defineStore({
             })
         },
 
-        validatePronunciation(alternativeTranscript: string, numberToWord: NumberToWord): boolean {
+        validatePronunciation(alternativeTranscript: string, numberToWord: NumberToWord, baselineWord?: string): boolean {
             const numberPronunciation = getNumberProps(numberToWord).pronunciation;
             const numberInvalidPronunciation = getNumberProps(numberToWord).invalidPronunciation;
 
             if (this.checkIfStringContainsValue(alternativeTranscript, numberPronunciation)) {
                 return true;
-            } else if (this.checkIfStringContainsValue(alternativeTranscript, `${getNumberProps(numberToWord).numberValue}:00`)) {
+            } else if (baselineWord !== undefined && this.checkIfStringContainsValue(alternativeTranscript, `${baselineWord}th`)) {
+                // this check is for lack of alternatives for seventy-eight (it has only: 78 & 78th)
+                return true;
+            } else if (this.checkIfStringContainsValue(alternativeTranscript, `${getNumberProps(numberToWord).numberValue}th`)) {
                 // this check is for lack of alternatives for twelve (it has only: 12 & 12:00)
                 return true;
             } else {
@@ -228,56 +289,9 @@ export const useWebSpeechStore = defineStore({
         checkIfStringContainsValue(stringToVerify: string, lookUpValue: string): boolean {
             return stringToVerify.toLowerCase().indexOf(lookUpValue) !== -1;
         },
+        //endregion RECOGNITION LOGIC
 
-        stopRecognition() {
-            if (this.isRecognitionOn()) {
-                recognition.stop();
-                this.recognitionOn = false;
-            }
-        },
-
-        stopRecognitionOnAudioEndEvent() {
-            recognition.addEventListener('audioend', () => {
-                this.stopRecognition();
-            })
-        },
-
-        // WEB SPEECH SYNTH METHODS
-        isSynthOn() {
-            return synth.speaking;
-        },
-
-        isSynthOff() {
-            return !synth.speaking;
-        },
-
-        stopSynthPlayback() {
-            if (this.isSynthOn()) {
-                synth.cancel();
-            }
-        },
-
-        playAudioHint() {
-            const exercisesStore = useExercisesStore();
-
-            if (this.isAudioOff()) {
-                const utterThis = new SpeechSynthesisUtterance(exercisesStore.wordToSay);
-
-                utterThis.rate = 0.8;
-                utterThis.lang = this.lang;
-                synth.speak(utterThis);
-            }
-        },
-
-        isAudioOn() {
-            return this.isSynthOn() && this.isRecognitionOn();
-        },
-
-        isAudioOff() {
-            return this.isSynthOff() && this.isRecognitionOff();
-        },
-
-        // TRANSCRIPTION METHODS
+        //region TRANSCRIPTION DISPLAY METHODS
         setTranscription(newValue: string) {
             this.transcription = newValue;
         },
@@ -297,5 +311,7 @@ export const useWebSpeechStore = defineStore({
         isNotNewAndOldTranscriptionEqual() {
             return this.transcription !== this.lastTranscription;
         },
+        //endregion TRANSCRIPTION DISPLAY METHODS
+
     },
 })

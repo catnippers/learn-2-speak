@@ -64,8 +64,28 @@ npm run dev
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Run Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-npm run test:unit
+npm run test
 ```
+
+### Run Tests with Coverage with [Vitest](https://vitest.dev/)
+
+```sh
+npm run coverage
+```
+
+## Tests
+
+`Vitest` is used as a framework for unit tests.
+
+`Icons` are tested by comparing them to the [snapshot](https://vitest.dev/guide/snapshot.html) - kind of baseline
+to compare the actual state of the component with.
+
+***TODO:***
+
+We need to figure out a nice way to perform end-to-end testing with audio examples (recordings should be done by both native and non-native speakers)
+
+
+
