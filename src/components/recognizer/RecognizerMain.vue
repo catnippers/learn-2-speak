@@ -7,7 +7,9 @@
          data-test="lts-say">
         Please say:
       </p>
-      <it-double-popover placement="left" secondPlacement="right" borderless>
+      <it-double-popover placement="left"
+                         secondPlacement="right"
+                         borderless>
         <button class="lts-word"
                 data-test="lts-word">
           {{ exercisesStore.$state.wordToSay }}
@@ -68,11 +70,13 @@ import SpeakerOffIcon from "@/components/icons/SpeakerOffIcon.vue";
 
 export default defineComponent({
   name: 'RecognizerMain',
+
   components: {
     RefreshIcon,
     SpeakerIcon,
     SpeakerOffIcon
   },
+
   setup() {
     const webSpeechStore = useWebSpeechStore();
     const exercisesStore = useExercisesStore();

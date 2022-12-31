@@ -2,20 +2,17 @@ import {defineStore} from 'pinia'
 import {useRecognizerSliderStore} from "@/stores/recognizerSlider";
 import {useWebSpeechStore} from "@/stores/webSpeech";
 import {useCounterStore} from "@/stores/counter";
+import {useWordsStore} from "@/stores/words";
 
 export type RootState = {
     wordToSay: string;
-    lettersList: string[];
 }
-
-const letters: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 export const useExercisesStore = defineStore({
     id: 'exercises',
 
     state: () => ({
         wordToSay: '',
-        lettersList: letters,
     } as RootState),
 
     actions: {
@@ -64,9 +61,11 @@ export const useExercisesStore = defineStore({
         },
 
         getRandomTriplet() {
-            let triplet: any[] = [];
+            const wordsStore = useWordsStore();
+
+            let triplet: string[] = [];
             for (let i = 0; i < 3; i++) {
-                triplet.push(this.lettersList[Math.floor(Math.random() * this.lettersList.length)]);
+                triplet.push(wordsStore.lettersList[Math.floor(Math.random() * wordsStore.lettersList.length)]);
             }
             return triplet.toString().replaceAll(",", ", ");
         },

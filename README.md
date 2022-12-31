@@ -8,6 +8,8 @@ Frontend Lead Developer / Project Manager / QA Lead: Tomasz Buga (kontakt@tomasz
 
 ### Links
 
+GitBook: https://learn2speak.gitbook.io/learn-to-speak/
+
 GitHub: https://github.com/catnippers
 
 LinkedIn: https://www.linkedin.com/company/79745129
