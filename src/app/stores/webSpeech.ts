@@ -145,12 +145,14 @@ export const useWebSpeechStore = defineStore({
 
             recognition.addEventListener('result', (event: any) => {
                 this.setTranscription(event.results[0][0].transcript.toString());
+
+                if (this.isNotNewAndOldTranscriptionEqual()) {
+                    exercisesStore.verifySaidWord();
+                    counterStore.incrementTries();
+                }
             });
 
-            if (this.isNotNewAndOldTranscriptionEqual()) {
-                exercisesStore.verifySaidWord();
-                counterStore.incrementTries();
-            }
+
         },
 
         performRecognitionForNumbers() {
